@@ -327,14 +327,14 @@ typedef struct {
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     _flags.rotationTransformIsDirty = YES;
     _flags.isRotating = YES;
-    typeof(self) __weak weakSelf = self;
+    __typeof(self) __weak weakSelf = self;
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        typeof(self) strongSelf = weakSelf;
+        __typeof(self) strongSelf = weakSelf;
         [strongSelf cancelCurrentImageDrag:NO];
         [strongSelf updateLayoutsForCurrentOrientation];
         [strongSelf updateDimmingViewForCurrentZoomScale:NO];
     } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        typeof(self) strongSelf = weakSelf;
+        __typeof(self) strongSelf = weakSelf;
         strongSelf.lastUsedOrientation = [UIApplication sharedApplication].statusBarOrientation;
         JTSImageViewControllerFlags flags = strongSelf.flags;
         flags.isRotating = NO;
@@ -367,14 +367,14 @@ typedef struct {
             self.lastUsedOrientation = newInterfaceOrientation;
             _flags.rotationTransformIsDirty = YES;
             _flags.isRotating = YES;
-            typeof(self) __weak weakSelf = self;
+            __typeof(self) __weak weakSelf = self;
             [UIView animateWithDuration:0.6 animations:^{
-                typeof(self) strongSelf = weakSelf;
+                __typeof(self) strongSelf = weakSelf;
                 [strongSelf cancelCurrentImageDrag:NO];
                 [strongSelf updateLayoutsForCurrentOrientation];
                 [strongSelf updateDimmingViewForCurrentZoomScale:NO];
             } completion:^(BOOL finished) {
-                typeof(self) strongSelf = weakSelf;
+                __typeof(self) strongSelf = weakSelf;
                 JTSImageViewControllerFlags flags = strongSelf.flags;
                 flags.isRotating = NO;
                 strongSelf.flags = flags;
@@ -396,9 +396,9 @@ typedef struct {
         BOOL fromDisk = [imageInfo.imageURL.absoluteString hasPrefix:@"file://"];
         _flags.imageIsBeingReadFromDisk = fromDisk;
         
-        typeof(self) __weak weakSelf = self;
+        __typeof(self) __weak weakSelf = self;
         NSURLSessionDataTask *task = [JTSSimpleImageDownloader downloadImageForURL:imageInfo.imageURL canonicalURL:imageInfo.canonicalImageURL completion:^(UIImage *image) {
-            typeof(self) strongSelf = weakSelf;
+            __typeof(self) strongSelf = weakSelf;
             [strongSelf cancelProgressTimer];
             if (image) {
                 if (strongSelf.isViewLoaded) {
@@ -627,7 +627,7 @@ typedef struct {
         if ([self.optionsDelegate respondsToSelector:@selector(imageViewerShouldFadeThumbnailsDuringPresentationAndDismissal:)]) {
             if ([self.optionsDelegate imageViewerShouldFadeThumbnailsDuringPresentationAndDismissal:self]) {
                 self.imageView.alpha = 0;
-                typeof(self) __weak weakSelf = self;
+                __typeof(self) __weak weakSelf = self;
                 [UIView animateWithDuration:0.15f animations:^{
                     weakSelf.imageView.alpha = 1;
                 }];
