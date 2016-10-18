@@ -96,6 +96,7 @@ typedef struct {
 @property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) UITextView *textView;
+@property (strong, nonatomic) UILabel *captionLabel;
 @property (strong, nonatomic) UIProgressView *progressView;
 @property (strong, nonatomic) UIActivityIndicatorView *spinner;
 
@@ -429,7 +430,18 @@ typedef struct {
     self.blackBackdrop.backgroundColor = [UIColor blackColor];
     self.blackBackdrop.alpha = 0;
     [self.view addSubview:self.blackBackdrop];
-    
+
+    UILabel *label = [UILabel new];
+    label.translatesAutoresizingMaskIntoConstraints = NO;
+    label.textAlignment = NSTextAlignmentCenter;
+    label.numberOfLines = 0;
+    label.backgroundColor = UIColor.clearColor;
+    label.attributedText = [[NSAttributedString alloc] initWithString:[self.imageInfo combinedTitleAndAltText] attributes:@{NSForegroundColorAttributeName : UIColor.whiteColor}];
+    [self.view addSubview:label];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[label]-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(label)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[label(==HEIGHT)]-(20)-|" options:0 metrics:@{@"HEIGHT" : @(([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) ? 80.0 : 40.0)} views:NSDictionaryOfVariableBindings(label)]];
+    self.captionLabel = label;
+
     self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     self.scrollView.delegate = self;
     self.scrollView.zoomScale = 1.0f;
