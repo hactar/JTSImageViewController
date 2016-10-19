@@ -722,6 +722,7 @@ typedef struct {
                      }
                      weakSelf.imageView.frame = endFrameForImageView;
                      
+                     weakSelf.captionLabel.alpha = 1;
                      CGPoint endCenterForImageView = CGPointMake(weakSelf.view.bounds.size.width/2.0f, weakSelf.view.bounds.size.height/2.0f);
                      weakSelf.imageView.center = endCenterForImageView;
                      
@@ -833,6 +834,7 @@ typedef struct {
                  weakSelf.blackBackdrop.alpha = self.alphaForBackgroundDimmingOverlay;
                  
                  weakSelf.scrollView.alpha = 1.0f;
+                 weakSelf.captionLabel.alpha = 1.0f;
                  weakSelf.scrollView.transform = CGAffineTransformIdentity;
                  
                  if (weakSelf.image == nil) {
@@ -1085,6 +1087,7 @@ typedef struct {
                         weakSelf.imageView.frame = _startingInfo.startingReferenceFrameForThumbnail;
                     }
                     
+                    weakSelf.captionLabel.alpha = 0;
                     [weakSelf setNeedsStatusBarAppearanceUpdate];
                 }
             } completion:^(BOOL finished) {
@@ -1126,6 +1129,7 @@ typedef struct {
             weakSelf.blurredSnapshotView.alpha = 0;
         }
         weakSelf.scrollView.alpha = 0;
+        weakSelf.captionLabel.alpha = 0;
         [weakSelf setNeedsStatusBarAppearanceUpdate];
     } completion:^(BOOL finished) {
         [weakSelf.presentingViewController dismissViewControllerAnimated:NO completion:^{
@@ -1164,6 +1168,7 @@ typedef struct {
             weakSelf.blurredSnapshotView.alpha = 0;
         }
         weakSelf.scrollView.alpha = 0;
+        weakSelf.captionLabel.alpha = 0;
         CGFloat scaling = JTSImageViewController_MaxScalingForExpandingOffscreenStyleTransition;
         weakSelf.scrollView.transform = CGAffineTransformMakeScale(scaling, scaling);
         [weakSelf setNeedsStatusBarAppearanceUpdate];
