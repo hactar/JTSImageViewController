@@ -68,10 +68,10 @@ typedef struct {
 
 @interface JTSImageViewController ()
 <
-    UIScrollViewDelegate,
-    UITextViewDelegate,
-    UIViewControllerTransitioningDelegate,
-    UIGestureRecognizerDelegate
+UIScrollViewDelegate,
+UITextViewDelegate,
+UIViewControllerTransitioningDelegate,
+UIGestureRecognizerDelegate
 >
 
 // General Info
@@ -352,12 +352,12 @@ typedef struct {
     }
     /*
      viewWillTransitionToSize:withTransitionCoordinator: is not called when rotating from
-     one landscape orientation to the other (or from one portrait orientation to another). 
-     This makes it difficult to preserve the desired behavior of JTSImageViewController. 
-     We want the background snapshot to maintain the illusion that it never rotates. The 
-     only other way to ensure that the background snapshot stays in the correct orientation 
+     one landscape orientation to the other (or from one portrait orientation to another).
+     This makes it difficult to preserve the desired behavior of JTSImageViewController.
+     We want the background snapshot to maintain the illusion that it never rotates. The
+     only other way to ensure that the background snapshot stays in the correct orientation
      is to listen for this notification and respond when we've detected a landscape-to-landscape rotation.
-    */
+     */
     UIDeviceOrientation deviceOrientation = [UIDevice currentDevice].orientation;
     BOOL landscapeToLandscape = UIDeviceOrientationIsLandscape(deviceOrientation) && UIInterfaceOrientationIsLandscape(self.lastUsedOrientation);
     BOOL portraitToPortrait = UIDeviceOrientationIsPortrait(deviceOrientation) && UIInterfaceOrientationIsPortrait(self.lastUsedOrientation);
@@ -430,20 +430,8 @@ typedef struct {
     self.blackBackdrop.backgroundColor = [UIColor blackColor];
     self.blackBackdrop.alpha = 0;
     [self.view addSubview:self.blackBackdrop];
-
-    UILabel *label = [UILabel new];
-    label.translatesAutoresizingMaskIntoConstraints = NO;
-    label.textAlignment = NSTextAlignmentCenter;
-    label.numberOfLines = 0;
-    label.backgroundColor = UIColor.clearColor;
-    label.attributedText = [[NSAttributedString alloc] initWithString:[self.imageInfo combinedTitleAndAltText] attributes:@{NSForegroundColorAttributeName : UIColor.whiteColor}];
-    [self.view addSubview:label];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[label]-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(label)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[label]-(20)-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(label)]];
-    self.captionLabel = label;
-    self.captionLabel.text = self.imageInfo.title;
-    self.captionLabel.textColor = [UIColor whiteColor];
-
+    
+    
     self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     self.scrollView.delegate = self;
     self.scrollView.zoomScale = 1.0f;
@@ -501,6 +489,21 @@ typedef struct {
     if (self.image) {
         [self updateInterfaceWithImage:self.image];
     }
+    UILabel *label = [UILabel new];
+    label.translatesAutoresizingMaskIntoConstraints = NO;
+    label.textAlignment = NSTextAlignmentCenter;
+    label.numberOfLines = 0;
+    label.backgroundColor = UIColor.clearColor;
+    label.attributedText = [[NSAttributedString alloc] initWithString:[self.imageInfo combinedTitleAndAltText] attributes:@{NSForegroundColorAttributeName : UIColor.whiteColor}];
+    
+    [self.view addSubview:label];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[label]-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(label)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[label]-(20)-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(label)]];
+    self.captionLabel = label;
+    self.captionLabel.text = self.imageInfo.title;
+    self.captionLabel.textColor = [UIColor whiteColor];
+    
+    
 }
 
 - (void)viewDidLoadForAltTextMode {
@@ -693,8 +696,8 @@ typedef struct {
                      
                      _flags.isTransitioningFromInitialModalToInteractiveState = YES;
                      [weakSelf setNeedsStatusBarAppearanceUpdate];
-
-
+                     
+                     
                      CGFloat scaling;
                      if (!(weakSelf.backgroundOptions & JTSImageViewControllerBackgroundOption_Scaled)) {
                          scaling = 1.0;
