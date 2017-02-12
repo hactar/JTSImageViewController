@@ -441,6 +441,8 @@ typedef struct {
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[label]-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(label)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[label]-(20)-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(label)]];
     self.captionLabel = label;
+    self.captionLabel.text = self.imageInfo.title;
+    self.captionLabel.textColor = [UIColor whiteColor];
 
     self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     self.scrollView.delegate = self;
